@@ -2,6 +2,15 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-}
+  compiler: {
+    emotion: true,
+  },
+};
 
-module.exports = nextConfig
+module.exports = {
+  nextConfig,
+
+  images: {
+    domains: ['ap.rdcpix.com'],
+  },
+};
