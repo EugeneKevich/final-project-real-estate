@@ -1,15 +1,15 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createNewAd, getEstateByUserId } from '../../database/newad';
+import { getEstate, getEstateByUserId } from '../../database/newad';
 import { getValidSessionByToken } from '../../database/sessions';
-import { getUserBySessionToken, User } from '../../database/users';
+import { getUserBySessionToken } from '../../database/users';
 
-export default async function createAdHandler(
+export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse,
 ) {
-  if (request.method === 'POST') {
+  if (request.method === 'GET') {
     const session =
       request.cookies.sessionToken &&
       (await getValidSessionByToken(request.cookies.sessionToken));
@@ -20,6 +20,7 @@ export default async function createAdHandler(
         .json({ errors: [{ message: 'No session token passed' }] });
       return;
     }
+
     const user = await getUserBySessionToken(session.token);
 
     if (!user) {
@@ -29,18 +30,17 @@ export default async function createAdHandler(
       return;
     }
 
-    const newAd = await createNewAd(
-      user.id,
-      request.body.status,
-      request.body.yearBuilt,
-      request.body.baths,
-      request.body.beds,
-      request.body.buildingSize,
-      request.body.price,
-      request.body.adress,
-      request.body.garage,
-      request.body.imageLink,
-    );
-    response.status(200).json({ user: user });
+    const estate = await getEstateByUserId(user.id);
+
+    if (!estate) {
+      response.status(400).json({ errors: [{ message: 'no ads' }] });
+    }
+
+    response.status(200).json({ estate });
+  } else {
+    response.status(405).json({ errors: [{ message: 'method not allowed' }] });
   }
+
+  const oneEstate = await getEstate();
+  return response.status(200).json(oneEstate);
 }

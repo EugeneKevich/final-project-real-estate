@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -8,6 +9,42 @@ import { RegisterResponseBody } from './api/register';
 type Props = {
   refreshUserProfile: () => Promise<void>;
 };
+
+const h1Style = css`
+  text-align: center;
+  padding: 50px;
+`;
+
+const formStyle = css`
+  width: 300px;
+  height: 500px;
+  margin: auto;
+  margin-top: 50px;
+
+  input {
+    width: 100%;
+    height: 45px;
+    margin: 20px 0;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px 5px #c2c2c2;
+  }
+  input:focus {
+    outline: none;
+    border: 1px solid #4e6c50;
+  }
+`;
+
+const buttonStyle = css`
+  width: 50%;
+  height: 45px;
+  margin: 20px 25%;
+  border: none;
+  border-radius: 10px;
+  background-color: #4e6c50;
+  color: #fff;
+  font-size: large;
+`;
 
 export default function Register(props: Props) {
   const [username, setUsername] = useState('');
@@ -35,7 +72,7 @@ export default function Register(props: Props) {
       return console.log(registerResponseBody.errors);
     }
 
-    /* const returnTo = router.query.returnTo;
+    const returnTo = router.query.returnTo;
     if (
       returnTo &&
       !Array.isArray(returnTo) && // Security: Validate returnTo parameter against valid path
@@ -45,7 +82,7 @@ export default function Register(props: Props) {
       return await router.push(returnTo);
     }
     await props.refreshUserProfile();
-    await router.push(`/profile`); */
+    await router.push(`/profile`);
   }
   return (
     <>
@@ -53,48 +90,41 @@ export default function Register(props: Props) {
         <title>Register Form</title>
         <meta name="description" content="Register new users" />
       </Head>
-      <h1>Registration Form</h1>
-      <label>
-        username
-        <input
-          value={username}
-          onChange={(event) => {
-            setUsername(event.currentTarget.value.toLowerCase());
-          }}
-        />
-      </label>
+      <main>
+        <h1 css={h1Style}>Registration Form</h1>
+        <form css={formStyle}>
+          <input
+            value={username}
+            onChange={(event) => {
+              setUsername(event.currentTarget.value.toLowerCase());
+            }}
+            placeholder="Username"
+          />
+          <input
+            value={password}
+            onChange={(event) => {
+              setPassword(event.currentTarget.value);
+            }}
+            placeholder="Password"
+          />
 
-      <label>
-        Password
-        <input
-          value={password}
-          onChange={(event) => {
-            setPassword(event.currentTarget.value);
-          }}
-        />
-      </label>
-      <label>
-        e-mail
-        <input
-          value={email}
-          onChange={(event) => {
-            setEmail(event.currentTarget.value);
-          }}
-        />
-      </label>
-      <button
-        onClick={async () => {
-          await sighnInHandler();
-        }}
-      >
-        Register
-      </button>
+          <button
+            onClick={async () => {
+              await sighnInHandler();
+            }}
+            css={buttonStyle}
+          >
+            Register
+          </button>
+        </form>
+      </main>
     </>
   );
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const token = context.req.cookies.sessionToken;
+  console.log('token', token);
   if (token && (await getValidSessionByToken(token))) {
     return {
       redirect: {

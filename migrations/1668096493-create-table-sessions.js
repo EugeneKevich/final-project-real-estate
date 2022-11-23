@@ -3,7 +3,7 @@ exports.up = async (sql) => {
   CREATE TABLE sessions (
     id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     token varchar (110) NOT NULL UNIQUE,
-    expire_timestamp timestamp NOT NULL DEFAULT NOW() + INTERVAL '24 hours',
+    expiry_timestamp timestamp NOT NULL DEFAULT NOW() + INTERVAL '24 hours',
     user_id integer REFERENCES users (id) ON DELETE CASCADE
   )`;
 };

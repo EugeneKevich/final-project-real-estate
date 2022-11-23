@@ -66,13 +66,14 @@ export default function Rent(props) {
   return (
     <>
       <Head>
-        <title>Register Form</title>
-        <meta name="description" content="Register new user" />
+        <title>Houses and Appartments for Rent</title>
+        <meta name="description" content="Find an appartment" />
       </Head>
+
       <main>
         <div css={containerStyles}>
           <h1> Offers for rent </h1>
-          <div css={listingStyles}>
+          {/* <div css={listingStyles}>
             {props.listings.slice(0, 25).map((res) => {
               return (
                 <div key={res.property_id} css={cardItemStyles}>
@@ -93,14 +94,14 @@ export default function Rent(props) {
                 </div>
               );
             })}
-          </div>
+          </div> */}
         </div>
       </main>
     </>
   );
 }
 
-export async function getServerSideProps() {
+/* export async function getServerSideProps() {
   const fetch = await require('node-fetch');
 
   const url =
@@ -122,4 +123,4 @@ export async function getServerSideProps() {
   return {
     props: { listings },
   };
-}
+} */

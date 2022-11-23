@@ -19,7 +19,7 @@ export async function createSession(userId: User['id'], token: string) {
 
   await deleteExpiredSessions();
 
-  return session!;
+  return session;
 }
 
 export async function getValidSessionByToken(token: Session['token']) {

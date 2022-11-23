@@ -65,3 +65,16 @@ export async function createUser(username: string, password_hash: string) {
     `;
   return userWithoutPassword!;
 }
+
+export async function updateUserById(id: number, username: string) {
+  const [user] = await sql`
+  UPDATE
+    users
+  SET
+    username = ${username}
+  WHERE
+    id = ${id}
+  RETURNING *
+  `;
+  return user;
+}

@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
+// import { getEstate } from '../database/newad';
 import banner from '../public/banner2.jpg';
 import sell from '../public/sell.jpg';
 
@@ -97,6 +98,7 @@ export default function Home(props) {
         </div>
         <div css={containerStyles}>
           <h2> New Listings</h2>
+
           <Link href="/buy">View All</Link>
           <div css={listingStyles}>
             {props.properties.slice(0, 4).map((res) => {
@@ -190,6 +192,9 @@ export async function getServerSideProps() {
 
   const properties = data.properties;
 
+  /* const resp = await getEstate();
+  const onEstate = JSON.parse(JSON.stringify(resp));
+  console.log(onEstate); */
   return {
     props: { properties },
   };

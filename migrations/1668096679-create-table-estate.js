@@ -8,10 +8,10 @@ exports.up = async (sql) => {
     beds integer NOT NULL,
     building_size integer NOT NULL,
     price integer NOT NULL,
-    adress varchar NOT NULL,
+    adress varchar (250) NOT NULL,
     garage integer NOT NULL,
     user_id integer REFERENCES users (id) ON DELETE CASCADE,
-    images varchar NOT NULL
+    images varchar (150)
   )`;
 };
 

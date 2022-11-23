@@ -1,7 +1,8 @@
 import { css } from '@emotion/react';
 import Head from 'next/head';
 import Image from 'next/image';
-import banner from '../public/banner2.jpg';
+import Link from 'next/link';
+import banner from '../../public/banner2.jpg';
 
 const containerStyles = css`
   width: 1260px;
@@ -66,8 +67,11 @@ export default function Buy(props) {
   return (
     <>
       <Head>
-        <title>Register Form</title>
-        <meta name="description" content="Register new user" />
+        <title>Houses and Appartments for Sell</title>
+        <meta
+          name="description"
+          content="Find real estate and homes for sale"
+        />
       </Head>
       <main>
         <div css={containerStyles}>
@@ -75,7 +79,8 @@ export default function Buy(props) {
           <div css={listingStyles}>
             {props.properties.slice(0, 25).map((res) => {
               return (
-                <div key={res.property_id} css={cardItemStyles}>
+                <div key={res.listing_id} css={cardItemStyles}>
+                  <Link href={`/buy/${res.listing_id}`}>Нажми сюда</Link>
                   <Image
                     src={res.thumbnail}
                     alt="appartment"

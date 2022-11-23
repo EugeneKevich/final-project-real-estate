@@ -1,7 +1,139 @@
+import { css } from '@emotion/react';
 import axios from 'axios';
 import { Image } from 'cloudinary-react';
 import Head from 'next/head';
 import { useState } from 'react';
+
+const h1Style = css`
+  text-align: center;
+  padding: 50px;
+`;
+
+const formStyles = css`
+  margin: auto;
+  width: 45%;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const inputStleColumnLeft = css`
+  display: flex;
+  flex-direction: column;
+
+  input {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 5px;
+    width: 300px;
+    height: 45px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px 5px #c2c2c2;
+  }
+  input:focus {
+    outline: none;
+  }
+`;
+
+const inputStleColumnRight = css`
+  display: flex;
+  flex-direction: column;
+  input {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    width: 300px;
+    height: 45px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px 5px #c2c2c2;
+  }
+
+  input:focus {
+    outline: none;
+    border: 1px solid #4e6c50;
+  }
+`;
+
+const imageUploadStyle = css`
+  margin: auto;
+  width: 45%;
+
+  align-items: center;
+
+  input::file-selector-button {
+    width: 120px;
+    height: 45px;
+    margin: 10px;
+    border: 1px solid #4e6c50;
+    border-radius: 10px;
+    background-color: #f0ebce;
+    color: #4e6c50;
+    font-size: large;
+
+    :hover {
+      width: 120px;
+      height: 45px;
+
+      border: none;
+      border-radius: 10px;
+      background-color: #4e6c50;
+      color: #f0ebce;
+      font-size: large;
+    }
+  }
+
+  img {
+    width: 400px;
+    height: 250px;
+    margin: 20px;
+  }
+
+  button {
+    width: 180px;
+    height: 45px;
+    margin: 10px;
+    margin-left: 195px;
+    border: 1px solid #4e6c50;
+    border-radius: 10px;
+    background-color: #f0ebce;
+    color: #4e6c50;
+    font-size: large;
+
+    :hover {
+      width: 180px;
+      height: 45px;
+      border: none;
+      border-radius: 10px;
+      background-color: #4e6c50;
+      color: #f0ebce;
+      font-size: large;
+    }
+  }
+`;
+
+const buttonStyle = css`
+  width: 25%;
+  height: 45px;
+  margin: 20px 38%;
+  border: none;
+  border-radius: 10px;
+  background-color: #4e6c50;
+  color: #fff;
+  font-size: large;
+
+  :hover {
+    width: 25%;
+    height: 45px;
+    margin: 20px 38%;
+    border: none;
+    border-radius: 10px;
+    background-color: #f0ebce;
+    border: 1px solid #4e6c50;
+    color: #4e6c50;
+    font-size: large;
+  }
+`;
 
 export default function New() {
   const [status, setStatus] = useState('');
@@ -12,7 +144,7 @@ export default function New() {
   const [price, setPrice] = useState(0);
   const [adress, setAdress] = useState('');
   const [garage, setGarage] = useState(0);
-  const [imageSrc, setImageSrc] = useState();
+  const [imageLink, setImageLink] = useState();
   const [image, setImage] = useState();
 
   async function createAdHandler() {
@@ -30,7 +162,7 @@ export default function New() {
         price,
         adress,
         garage,
-        imageSrc,
+        imageLink,
       }),
     });
     const createAdResponseBody = await createAdResponse.json();
@@ -44,7 +176,7 @@ export default function New() {
     await axios
       .post('https://api.cloudinary.com/v1_1/dl6zxylrj/image/upload', formData)
       .then((response) => {
-        setImageSrc(response.data.url);
+        setImageLink(response.data.url);
       });
   };
 
@@ -73,98 +205,112 @@ export default function New() {
         <title>New Advert</title>
         <meta name="description" content="create a new advert" />
       </Head>
-      <h1>Create a new advert</h1>
-      <div>
+      <main>
+        <h1 css={h1Style}>Create a new advert</h1>
+
         <form onSubmit={handleOnSubmit}>
-          <label>
-            type
-            <input
-              value={status}
-              onChange={(event) => {
-                setStatus(event.currentTarget.value);
-              }}
-            />
-          </label>
-          <label>
-            yearBuilt
-            <input
-              type="number"
-              value={yearBuilt}
-              onChange={(event) => {
-                setYearBuilt(event.currentTarget.value);
-              }}
-            />
-          </label>
-          <label>
-            baths
-            <input
-              type="number"
-              value={baths}
-              onChange={(event) => {
-                setBaths(event.currentTarget.value);
-              }}
-            />
-          </label>
-          <label>
-            beds
-            <input
-              type="number"
-              value={beds}
-              onChange={(event) => {
-                setBeds(event.currentTarget.value);
-              }}
-            />
-          </label>
-          <label>
-            buildingSize
-            <input
-              type="number"
-              value={buildingSize}
-              onChange={(event) => {
-                setBuildingSize(event.currentTarget.value);
-              }}
-            />
-          </label>
-          <label>
-            price
-            <input
-              type="number"
-              value={price}
-              onChange={(event) => {
-                setPrice(event.currentTarget.value);
-              }}
-            />
-          </label>
-          <label>
-            adress
-            <input
-              value={adress}
-              onChange={(event) => {
-                setAdress(event.currentTarget.value);
-              }}
-            />
-          </label>
-          <label>
-            garage
-            <input
-              type="number"
-              value={garage}
-              onChange={(event) => {
-                setGarage(event.currentTarget.value);
-              }}
-            />
-          </label>
-          <label>
-            images
-            <input type="file" name="file" onChange={handleOnChange} />
-          </label>
-          <Image src={image} alt="sdf" width="300px" height="300px" />
+          <div css={formStyles}>
+            <div css={inputStleColumnLeft}>
+              <label htmlFor="type">Type</label>
+              <input
+                id="type"
+                value={status}
+                onChange={(event) => {
+                  setStatus(event.currentTarget.value);
+                }}
+                placeholder="Apartment, House, Office"
+              />
 
-          <button onClick={uploadImages}>upload images</button>
+              <label htmlFor="yearBuilt">Built in</label>
+              <input
+                id="yearBuilt"
+                value={yearBuilt}
+                onChange={(event) => {
+                  setYearBuilt(event.currentTarget.value);
+                }}
+                placeholder="1990"
+              />
 
-          <button onClick={createAdHandler}>Create new ad</button>
+              <label htmlFor="baths">Baths</label>
+              <input
+                id="baths"
+                value={baths}
+                onChange={(event) => {
+                  setBaths(event.currentTarget.value);
+                }}
+                placeholder="Baths"
+              />
+
+              <label htmlFor="beds">Beds</label>
+              <input
+                id="beds"
+                value={beds}
+                onChange={(event) => {
+                  setBeds(event.currentTarget.value);
+                }}
+                placeholder="Beds"
+              />
+            </div>
+            <div css={inputStleColumnRight}>
+              <label htmlFor="adress">Address</label>
+              <input
+                id="adress"
+                value={adress}
+                onChange={(event) => {
+                  setAdress(event.currentTarget.value);
+                }}
+                placeholder="street, house number, district, postal code, city"
+              />
+
+              <label htmlFor="buildingSize">Building Size</label>
+              <input
+                id="buildingSize"
+                value={buildingSize}
+                onChange={(event) => {
+                  setBuildingSize(event.currentTarget.value);
+                }}
+              />
+
+              <label htmlFor="Price">Price</label>
+              <input
+                id="Price"
+                value={price}
+                onChange={(event) => {
+                  setPrice(event.currentTarget.value);
+                }}
+                placeholder="$"
+              />
+
+              <label htmlFor="Garage">Garage</label>
+              <input
+                id="Garage"
+                value={garage}
+                onChange={(event) => {
+                  setGarage(event.currentTarget.value);
+                }}
+                placeholder="Garage"
+              />
+            </div>
+          </div>
+          <div css={imageUploadStyle}>
+            <input
+              type="file"
+              name="file"
+              onChange={handleOnChange}
+              placeholder=" images"
+            />
+
+            <button onClick={uploadImages}>upload images</button>
+            <Image
+              src={image}
+              onLoad={(event) => (event.target.style.display = 'inline-block')}
+            />
+          </div>
+          <button onClick={createAdHandler} css={buttonStyle}>
+            Create new ad
+          </button>
         </form>
-      </div>
+      </main>
     </>
   );
 }

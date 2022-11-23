@@ -56,8 +56,10 @@ export default async function handler(
       crypto.randomBytes(80).toString('base64'),
     );
 
+    console.log(session?.token);
+
     const serializedCookie = createSerializedRegisterSessionTokenCookie(
-      session.token,
+      session!.token,
     );
 
     response

@@ -56,6 +56,30 @@ const loginStyles = css`
   }
 `;
 
+const anchorStyle = css`
+  height: 45px;
+  padding: 10px;
+  border: 1px solid #ccc;
+
+  a {
+    text-align: center;
+    border: 1px solid #ccc;
+  }
+  a + a {
+    margin: 10px;
+  }
+  a:last-child {
+    width: 80px;
+    height: 25px;
+    background-color: #4e6c50;
+    border: 1px solid #395144;
+    border-radius: 20px;
+    color: #f0ebce;
+    font-size: 18px;
+    font-weight: 500;
+  }
+`;
+
 function Anchor({ children, ...restProps }) {
   // using a instead of Link since we want to force a full refresh
   return <a {...restProps}>{children}</a>;
@@ -64,7 +88,7 @@ function Anchor({ children, ...restProps }) {
 export default function Header(props) {
   return (
     <header css={headerStyles}>
-      <div css={headerContainer}>
+      <nav css={headerContainer}>
         <div css={logotype}>
           <Link href="/">
             <Image src={logo} width="190px" height="35px" />
@@ -78,29 +102,31 @@ export default function Header(props) {
             <a>RENT</a>
           </Link>
           <Link href="/">
-            <a>SOLD</a>
+            <a>SELL</a>
           </Link>
         </div>
 
-        {props.user && props.user.username}
         {props.user ? (
-          <Anchor
-            css={css`
-              margin-left: 10px;
-            `}
-            href="/logout"
-          >
-            Logout
+          <Anchor>
+            <div css={anchorStyle}>
+              <Link href={`/profile/${props.user.username}`}>
+                <a>Profile</a>
+              </Link>
+              <Link href="/newad">
+                <a>Create new ad</a>
+              </Link>
+              <Link href="/logout">
+                <a>Logout</a>
+              </Link>
+            </div>
           </Anchor>
         ) : (
           <div css={loginStyles}>
             <Link href="/register">Sign Up</Link>
-            <Link href="/login">
-              <button>Login</button>
-            </Link>
+            <Link href="/login">Login</Link>
           </div>
         )}
-      </div>
+      </nav>
     </header>
   );
 }

@@ -24,7 +24,7 @@ export async function createNewAd(
   price: number,
   adress: string,
   garage: number,
-  images: string,
+  imageSrc: string,
 ) {
   const [estate] = await sql<Estate[]>`
   INSERT INTO estate
@@ -37,7 +37,7 @@ export async function createNewAd(
   adress, garage,
   images)
   VALUES
-  (${userId}, ${status},${year_built},${baths},${beds}, ${building_size}, ${price},${adress}, ${garage}, ${images})
+  (${userId}, ${status},${year_built},${baths},${beds}, ${building_size}, ${price},${adress}, ${garage}, ${imageSrc})
   RETURNING
   id,
   status,
@@ -46,8 +46,42 @@ export async function createNewAd(
   beds,
   building_size,
   price,
-  adress, garage,
+  adress,
+  garage,
   images
   `;
+  return estate;
+}
+
+export async function getEstateByUserId(id: number) {
+  const [estate] = await sql<Estate[]>`
+  SELECT
+    *
+  FROM
+    estate
+  WHERE
+  estate.user_id = ${id}
+  `;
+  return estate;
+}
+
+export async function deleteEstateById(id: number) {
+  const [estate] = await sql<Estate[]>`
+  DELETE FROM
+    estate
+  WHERE
+    id = ${id}
+  RETURNING *
+  `;
+  return estate;
+}
+
+export async function getEstate() {
+  const [estate] = await sql<Estate[]>`
+SELECT
+  *
+FROM
+  estate
+`;
   return estate;
 }
