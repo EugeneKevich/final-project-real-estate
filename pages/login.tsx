@@ -98,7 +98,7 @@ export default function Login(props: Props) {
       return await router.push(returnTo);
     }
     await props.refreshUserProfile();
-    await router.push(`/profile`);
+    await router.push(`/profile/${username}`);
   }
 
   return (
@@ -110,7 +110,7 @@ export default function Login(props: Props) {
       <main>
         <h1 css={h1Style}>Login</h1>
 
-        <form css={formStyle}>
+        <div css={formStyle}>
           <input
             value={username}
             onChange={(event) => {
@@ -131,10 +131,11 @@ export default function Login(props: Props) {
             onClick={async () => {
               await loginHandler();
             }}
+            css={buttonStyle}
           >
             Login
           </button>
-        </form>
+        </div>
       </main>
     </>
   );

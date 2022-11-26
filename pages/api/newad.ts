@@ -1,7 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createNewAd, getEstateByUserId } from '../../database/newad';
+import {
+  createNewAd,
+  getEstateByUserId,
+  updateEstateByid,
+} from '../../database/newad';
 import { getValidSessionByToken } from '../../database/sessions';
 import { getUserBySessionToken, User } from '../../database/users';
 
@@ -42,5 +46,26 @@ export default async function createAdHandler(
       request.body.imageLink,
     );
     response.status(200).json({ user: user });
+  }
+
+  if (request.method === 'PUT') {
+    const id = request.body?.id;
+    const status = request.body?.status;
+    const baths = request.body?.baths;
+    const buildingSize = request.body?.buildingSize;
+    const price = request.body?.price;
+    const adress = request.body?.adress;
+    const beds = request.body?.beds;
+
+    const newEstate = await updateEstateByid(
+      id,
+      status,
+      baths,
+      beds,
+      buildingSize,
+      price,
+      adress,
+    );
+    return response.status(200).json(newEstate);
   }
 }

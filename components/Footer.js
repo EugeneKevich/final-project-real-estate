@@ -5,15 +5,11 @@ const footerStyles = css`
   background-color: #fff;
   width: 100%;
   padding: 10px;
-  position: static;
+  position: fixed;
   bottom: 0;
   left: 0;
 `;
 
 export default function Footer() {
-  return (
-    <footer css={footerStyles}>
-      <p>footer</p>
-    </footer>
-  );
+  return <></>;
 }

@@ -4,10 +4,12 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { getValidSessionByToken } from '../database/sessions';
+import { User } from '../database/users';
 import { RegisterResponseBody } from './api/register';
 
 type Props = {
   refreshUserProfile: () => Promise<void>;
+  user?: User;
 };
 
 const h1Style = css`
@@ -49,12 +51,11 @@ const buttonStyle = css`
 export default function Register(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
   const [errors, setErrors] = useState<{ message: string }[]>([]);
   const router = useRouter();
 
-  async function sighnInHandler() {
-    const registerResponse = await fetch(`/api/register`, {
+  async function sighnUpHandler() {
+    const registerResponse = await fetch('/api/register', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -66,6 +67,8 @@ export default function Register(props: Props) {
     });
     const registerResponseBody =
       (await registerResponse.json()) as RegisterResponseBody;
+
+    console.log('responseBody', registerResponseBody);
 
     if ('errors' in registerResponseBody) {
       setErrors(registerResponseBody.errors);
@@ -82,7 +85,7 @@ export default function Register(props: Props) {
       return await router.push(returnTo);
     }
     await props.refreshUserProfile();
-    await router.push(`/profile`);
+    await router.push(`/profile/${username}`);
   }
   return (
     <>
@@ -92,7 +95,7 @@ export default function Register(props: Props) {
       </Head>
       <main>
         <h1 css={h1Style}>Registration Form</h1>
-        <form css={formStyle}>
+        <div css={formStyle}>
           <input
             value={username}
             onChange={(event) => {
@@ -110,13 +113,13 @@ export default function Register(props: Props) {
 
           <button
             onClick={async () => {
-              await sighnInHandler();
+              await sighnUpHandler();
             }}
             css={buttonStyle}
           >
             Register
           </button>
-        </form>
+        </div>
       </main>
     </>
   );

@@ -21,14 +21,15 @@ const headerContainer = css`
 
 const logotype = css`
   width: 190px;
-  height: 35px;
+  height: 20px;
+  margin-bottom: 15px;
 `;
 
 const navStyles = css`
   a {
     font-size: 18px;
     font-weight: 700;
-    color: #261d16;
+    color: #4e6c50;
   }
 
   a + a {
@@ -37,22 +38,15 @@ const navStyles = css`
 `;
 
 const loginStyles = css`
-  a {
-    font-size: 18px;
-    font-weight: 700;
-    color: #261d16;
-    padding-right: 20px;
-  }
-
-  button {
-    width: 80px;
+  div:last-child {
+    width: 120px;
     height: 35px;
     background-color: #4e6c50;
     border: 1px solid #395144;
     border-radius: 20px;
     color: #f0ebce;
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 700;
   }
 `;
 
@@ -60,23 +54,18 @@ const anchorStyle = css`
   height: 45px;
   padding: 10px;
   border: 1px solid #ccc;
+  height: 70px;
+  text-align: center;
+  background-color: #4e6c50;
+  display: flex;
 
   a {
     text-align: center;
-    border: 1px solid #ccc;
-  }
-  a + a {
-    margin: 10px;
-  }
-  a:last-child {
-    width: 80px;
-    height: 25px;
-    background-color: #4e6c50;
-    border: 1px solid #395144;
-    border-radius: 20px;
+    margin-left: 15px;
     color: #f0ebce;
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 700;
+    margin: 10px;
   }
 `;
 
@@ -101,7 +90,7 @@ export default function Header(props) {
           <Link href="/rent">
             <a>RENT</a>
           </Link>
-          <Link href="/">
+          <Link href="/sell">
             <a>SELL</a>
           </Link>
         </div>
@@ -121,9 +110,14 @@ export default function Header(props) {
             </div>
           </Anchor>
         ) : (
-          <div css={loginStyles}>
-            <Link href="/register">Sign Up</Link>
-            <Link href="/login">Login</Link>
+          <div css={anchorStyle}>
+            <Link href="/register">
+              <a>Sign Up</a>
+            </Link>
+
+            <Link href="/login">
+              <a>Login</a>
+            </Link>
           </div>
         )}
       </nav>

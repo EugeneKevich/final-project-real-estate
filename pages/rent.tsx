@@ -1,8 +1,10 @@
 import { css } from '@emotion/react';
+import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import banner from '../../public/banner2.jpg';
+import banner from '../public/banner2.jpg';
+import { RealApi } from './buy';
 
 const containerStyles = css`
   width: 1260px;
@@ -63,32 +65,34 @@ const buttonStyle = css`
   display: block;
 `;
 
-export default function Buy(props) {
+type Props = {
+  realApi?: RealApi;
+};
+
+export default function Rent(props: Props) {
   return (
     <>
       <Head>
-        <title>Houses and Appartments for Sell</title>
-        <meta
-          name="description"
-          content="Find real estate and homes for sale"
-        />
+        <title>Houses and Appartments for Rent</title>
+        <meta name="description" content="Find an appartment" />
       </Head>
+
       <main>
         <div css={containerStyles}>
           <h1> Offers for rent </h1>
           <div css={listingStyles}>
-            {props.properties.slice(0, 25).map((res) => {
+            {props.realApi?.slice(0, 25).map((res) => {
               return (
                 <div key={res.listing_id} css={cardItemStyles}>
-                  <Link href={`/buy/${res.listing_id}`}>Нажми сюда</Link>
-                  <Image
-                    src={res.thumbnail}
-                    alt="appartment"
-                    width="300"
-                    height="200"
-                    css={imgStyle}
-                  />
-
+                  <Link href={`/buy/${res.listing_id}`}>
+                    <Image
+                      src={res.thumbnail}
+                      alt="appartment"
+                      width="300"
+                      height="200"
+                      css={imgStyle}
+                    />
+                  </Link>
                   <p css={priceStyle}>${res.price} </p>
                   <p>
                     {res.beds} bed {res.baths} baths {res.building_size.size}{' '}
@@ -104,17 +108,18 @@ export default function Buy(props) {
               );
             })}
           </div>
+          s
         </div>
       </main>
     </>
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const fetch = await require('node-fetch');
 
   const url =
-    'https://realty-in-us.p.rapidapi.com/properties/v2/list-for-sale?city=New%20York%20City&state_code=NY&offset=0&limit=16&sort=photos';
+    'https://realty-in-us.p.rapidapi.com/properties/v2/list-for-sale?city=New%20York%20City&state_code=NY&offset=20&limit=16&sort=photos';
 
   const options = {
     method: 'GET',
@@ -127,9 +132,9 @@ export async function getServerSideProps() {
   const res = await fetch(url, options);
   const data = await res.json();
 
-  const properties = data.properties;
+  const realApi = data.properties;
 
   return {
-    props: { properties },
+    props: { realApi },
   };
 }

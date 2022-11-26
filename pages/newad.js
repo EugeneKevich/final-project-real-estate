@@ -84,8 +84,8 @@ const imageUploadStyle = css`
   }
 
   img {
-    width: 400px;
-    height: 250px;
+    width: 200px;
+    height: 150px;
     margin: 20px;
   }
 
@@ -306,6 +306,7 @@ export default function New() {
               onLoad={(event) => (event.target.style.display = 'inline-block')}
             />
           </div>
+
           <button onClick={createAdHandler} css={buttonStyle}>
             Create new ad
           </button>
