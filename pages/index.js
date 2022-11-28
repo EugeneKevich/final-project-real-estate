@@ -131,7 +131,7 @@ export default function Home(props) {
             <div css={textStyle}>
               <h3>How to sell your realty</h3>
               <p>Get your home’s value and see selling options</p>
-              <Link href="/">
+              <Link href="/sell">
                 <button css={buttonStyle}>Start exploring</button>
               </Link>
             </div>

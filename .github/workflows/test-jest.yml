@@ -1,0 +1,22 @@
+name: Fly.io Deploy
+on: push
+env: FLY_API_TOKEN: ${{secrets.FLY_API_TOKEN}}
+jobs:
+  deploy:
+    name: Deploy to Fly.io
+
+    # Tell the action to use the latest
+    # version of Ubuntu (a Linux flavor)
+    # https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    runs-on: ubuntu-latest
+    steps:
+      # Use the official Checkout action (clones the GitHub repo):
+      # https://github.com/actions/checkout
+      - uses: actions/checkout@v3
+      # Use the official setup-node action (sets up Node.js):
+      # https://github.com/actions/setup-node
+
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      # Run the Jest unit tests
+      - run: flyctl deploy --remote-only

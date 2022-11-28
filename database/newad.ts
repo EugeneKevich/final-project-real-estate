@@ -1,20 +1,18 @@
 import { sql } from './connect';
 import { User } from './users';
 
-export type Estate = [
-  {
-    id: number;
-    status: string;
-    yearBuilt: number;
-    baths: number;
-    beds: number;
-    buildingSize: number;
-    price: number;
-    adress: string;
-    garage: number;
-    images: string;
-  },
-];
+export type Estate = {
+  id: number;
+  status: string;
+  yearBuilt: number;
+  baths: number;
+  beds: number;
+  buildingSize: number;
+  price: number;
+  adress: string;
+  garage: number;
+  images: string;
+};
 
 export async function createNewAd(
   userId: User['id'],
@@ -56,26 +54,16 @@ export async function createNewAd(
 }
 
 export async function getEstateByUserId(id: number) {
-  const [estate] = await sql<Estate[]>`
+  const estate = await sql<Estate[]>`
   SELECT
-  estate.status,
-  estate.year_built,
-  estate.baths,
-  estate.beds,
-  estate.building_size,
-  estate.price,
-  estate.adress,
-  estate.garage,
-  estate.images
+    *
   FROM
-    estate,
-    users
+    estate
   WHERE
-    estate.user_id = users.id AND
-    estate.user_id = ${id}
+    user_id = ${id}
 
   `;
-  return [estate];
+  return estate;
 }
 
 export async function deleteEstateById(id: number) {
@@ -90,13 +78,13 @@ export async function deleteEstateById(id: number) {
 }
 
 export async function getEstate() {
-  const [estate] = await sql<Estate[]>`
+  const estate = await sql<Estate[]>`
 SELECT
   *
 FROM
   estate
 `;
-  return [estate];
+  return estate;
 }
 
 export async function getEstateById(id: number) {

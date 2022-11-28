@@ -238,7 +238,7 @@ export async function getServerSideProps(context) {
       props: { estate },
     };
   }
-  console.log('single', single);
+
   return {
     props: { realApi },
   };

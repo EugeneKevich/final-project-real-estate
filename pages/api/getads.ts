@@ -43,9 +43,9 @@ export default async function handler(
     }
 
     response.status(200).json({ estate });
-  } else {
-    response.status(405).json({ errors: [{ message: 'method not allowed' }] });
   }
+
+  response.status(405).json({ errors: [{ message: 'method not allowed' }] });
 
   /* const oneEstate = await getEstate();
    return response.status(200).json(oneEstate); */

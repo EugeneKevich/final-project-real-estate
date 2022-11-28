@@ -45,6 +45,8 @@ const firstBlock = css`
   div {
     width: 385px;
     border: 1px solid #4e6c50;
+    border-radius: 10px;
+    box-shadow: 3px 3px 25px #c2c2c2;
     margin-bottom: 50px;
     padding: 25px;
     text-align: center;
@@ -79,6 +81,8 @@ const secondBlock = css`
   div {
     width: 285px;
     border: 1px solid #4e6c50;
+    border-radius: 10px;
+    box-shadow: 3px 3px 25px #c2c2c2;
     padding: 20px;
     text-align: center;
 

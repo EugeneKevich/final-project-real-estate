@@ -13,7 +13,7 @@ import { getUserByUsername, User } from '../../database/users';
 
 type Props = {
   user?: User;
-  estate?: Estate;
+  estate?: Estate[];
 };
 
 const listingStyles = css`
@@ -67,7 +67,7 @@ const style = css`
 
 const buttonStyle = css`
   width: 80;
-  height: 25px;
+  height: 35px;
   margin-top: 20px;
   margin: auto;
   margin-left: 20px;
@@ -79,8 +79,7 @@ const buttonStyle = css`
 
   :hover {
     width: 80;
-    height: 25px;
-
+    height: 35px;
     margin-left: 20px;
     border: none;
     border-radius: 10px;
@@ -88,6 +87,12 @@ const buttonStyle = css`
     border: 1px solid #4e6c50;
     color: #4e6c50;
     font-size: large;
+  }
+  a:hover {
+    color: #4e6c50;
+  }
+  a {
+    color: #f0ebce;
   }
 `;
 
@@ -149,7 +154,9 @@ export default function UserProfile(props: Props) {
         <div css={h1Style}>
           <h1>You don't have any ads yet</h1>
           <button css={buttonStyle}>
-            <Link href="/newad">Create new ad</Link>
+            <Link href="/newad">
+              <a>Create new ad</a>
+            </Link>
           </button>
         </div>
       </>
@@ -166,8 +173,9 @@ export default function UserProfile(props: Props) {
           <h1>Your Profile</h1>
           <p>username: {props.user.username}</p>
         </div>
+
         <div css={cardItemStyles}>
-          {props.estate.map((res) => {
+          {props.estate?.map((res) => {
             return (
               <div key={res.id} css={cardItemStyles}>
                 <Link href={`/${props.user?.username}/${res.id}`}>
@@ -214,8 +222,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   const estate = await getEstateByUserId(user.id);
-
-  if (estate !== undefined) {
+  console.log('single', estate);
+  if (estate.length > 0) {
     return {
       props: { user, estate },
     };

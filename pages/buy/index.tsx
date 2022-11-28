@@ -24,7 +24,7 @@ export type RealApi = [
 ];
 
 type Props = {
-  estate?: Estate;
+  estate?: Estate[];
   realApi?: RealApi;
 };
 
@@ -152,7 +152,7 @@ export default function Buy(props: Props) {
                 <div key={res.id} css={cardItemStyles}>
                   <Link href={`/buy/${res.id}`}>
                     <Image
-                      src={`${res.images}`}
+                      src={res.images}
                       alt="appartment"
                       width="300"
                       height="200"
@@ -223,6 +223,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const estate = await getEstate();
 
+  console.log(estate);
   if (estate !== undefined) {
     return {
       props: { realApi, estate },
